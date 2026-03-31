@@ -257,15 +257,25 @@
             }
         }
 
+       // مطر القلوب التلقائي - تم زيادة الكثافة هنا
         setInterval(() => {
             const h = document.createElement('div');
-            h.className = 'falling-heart'; h.innerHTML = '❤️';
+            h.className = 'falling-heart'; 
+            // مصفوفة لاختيار شكل القلب بشكل عشوائي للتنويع
+            const heartTypes = ['❤️', '💖', '✨', '🌸', '💕'];
+            h.innerHTML = heartTypes[Math.floor(Math.random() * heartTypes.length)];
+            
             h.style.left = Math.random() * 100 + 'vw';
-            h.style.fontSize = (Math.random()*15 + 10) + 'px';
-            h.style.animationDuration = (Math.random()*3 + 5) + 's';
+            h.style.top = '-20px'; // يبدأ من فوق الشاشة تماماً
+            h.style.fontSize = (Math.random() * 20 + 10) + 'px'; // أحجام متنوعة
+            h.style.opacity = Math.random(); // شفافية متغيرة لشكل ألطف
+            h.style.animationDuration = (Math.random() * 3 + 3) + 's'; // سرعات متفاوتة
+            
             document.getElementById('heart-rain').appendChild(h);
-            setTimeout(() => h.remove(), 7000);
-        }, 400);
+            
+            // مسح العنصر بعد انتهاء الأنيميشن لتجنب ثقل الصفحة
+            setTimeout(() => h.remove(), 6000);
+        }, 150); // القيمة دي كانت 400، خليتها 150 عشان القلوب تنزل أسرع وبكمية أكبر
     </script>
 </body>
 </html>
