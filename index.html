@@ -36,37 +36,34 @@
             box-shadow: 0 10px 30px rgba(255, 75, 92, 0.3);
         }
 
-        h1 { font-size: 2.5rem; margin-bottom: 20px; text-shadow: 2px 2px 4px rgba(0,0,0,0.2); }
+        h1 { font-size: 2.2rem; margin-bottom: 20px; text-shadow: 2px 2px 4px rgba(0,0,0,0.2); }
 
         .countdown {
             display: flex;
             justify-content: center;
-            gap: 15px;
+            gap: 10px;
             margin-top: 30px;
+            flex-wrap: wrap;
         }
 
         .count-box {
             background: var(--glass-bg);
             color: var(--primary-color);
-            padding: 15px;
+            padding: 10px;
             border-radius: 15px;
-            min-width: 70px;
+            min-width: 65px;
             font-weight: bold;
             box-shadow: 0 5px 15px rgba(0,0,0,0.1);
         }
 
-        .count-box span { font-size: 1.8rem; display: block; }
-        .count-box label { font-size: 0.8rem; text-transform: uppercase; color: #888; }
+        .count-box span { font-size: 1.5rem; display: block; }
+        .count-box label { font-size: 0.7rem; text-transform: uppercase; color: #888; }
 
-        .section-title { margin: 60px 0 30px; font-size: 2.2rem; color: var(--primary-color); position: relative; }
-        .section-title::after {
-            content: ''; width: 50px; height: 3px; background: var(--primary-color);
-            position: absolute; bottom: -10px; left: 50%; transform: translateX(-50%);
-        }
-
+        .section-title { margin: 60px 0 30px; font-size: 2rem; color: var(--primary-color); position: relative; }
+        
         .gallery {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
             gap: 20px;
             padding: 20px;
             max-width: 1100px;
@@ -74,30 +71,28 @@
         }
 
         .gallery-item {
-            position: relative;
-            overflow: hidden;
             border-radius: 20px;
-            height: 350px;
-            box-shadow: 0 10px 20px rgba(0,0,0,0.1);
-            transition: transform 0.3s ease;
+            height: 300px;
+            background: #eee;
+            overflow: hidden;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
         }
 
-        .gallery-item:hover { transform: translateY(-10px); }
         .gallery-item img { width: 100%; height: 100%; object-fit: cover; }
 
         .cards-container {
             display: flex;
             flex-wrap: wrap;
             justify-content: center;
-            gap: 30px;
-            padding: 40px 20px;
+            gap: 20px;
+            padding: 20px;
         }
 
-        .card { width: 320px; height: 220px; perspective: 1000px; }
+        .card { width: 280px; height: 200px; perspective: 1000px; }
         .card-inner {
             position: relative;
             width: 100%; height: 100%;
-            transition: transform 0.8s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            transition: transform 0.8s;
             transform-style: preserve-3d;
             cursor: pointer;
         }
@@ -111,13 +106,12 @@
             align-items: center;
             justify-content: center;
             border-radius: 20px;
-            padding: 25px;
-            box-sizing: border-box;
+            padding: 20px;
         }
         .card-front { background: white; border: 2px dashed var(--secondary-color); color: var(--primary-color); }
         .card-back { background: var(--primary-color); color: white; transform: rotateY(180deg); }
 
-        footer { padding: 40px; color: #888; font-style: italic; }
+        footer { padding: 40px; color: #888; font-size: 0.9rem; }
     </style>
 </head>
 <body>
@@ -144,22 +138,21 @@
     <div class="cards-container">
         <div class="card">
             <div class="card-inner">
-                <div class="card-front"><h3>The First Day 🗓️</h3><p>Tap to flip</p></div>
-                <div class="card-back"><p>I still remember the first second I saw you. It was the moment my life truly started.</p></div>
+                <div class="card-front"><h3>The First Day 🗓️</h3></div>
+                <div class="card-back"><p>The moment my life truly started.</p></div>
             </div>
         </div>
         <div class="card">
             <div class="card-inner">
-                <div class="card-front"><h3>My Promise 💍</h3><p>Tap to flip</p></div>
-                <div class="card-back"><p>To always be by your side, to support you, and to love you more with every passing day.</p></div>
+                <div class="card-front"><h3>My Promise 💍</h3></div>
+                <div class="card-back"><p>To love you more with every passing day.</p></div>
             </div>
         </div>
     </div>
 
-    <footer>Created with love for a very special person ✨</footer>
+    <footer>Created with love ✨</footer>
 
     <script>
-        // السطر ده هو اللي اتعدل عشان يظبط الوقت لـ 1 أبريل 2026
         const targetDate = new Date("April 1, 2026 00:00:00").getTime();
 
         function updateCountdown() {
