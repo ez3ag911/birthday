@@ -23,9 +23,8 @@
             overflow: hidden; cursor: crosshair;
         }
 
-        /* إخفاء السكرول بار تماماً */
         ::-webkit-scrollbar { display: none; }
-        * { -ms-overflow-style: none;  scrollbar-width: none; }
+        * { -ms-overflow-style: none;  scrollbar-width: none; box-sizing: border-box; }
 
         .container { text-align: center; z-index: 10; width: 100%; max-width: 700px; padding: 20px; }
 
@@ -37,28 +36,21 @@
 
         .timer {
             display: flex; justify-content: center; gap: 30px; margin-bottom: 60px;
-            opacity: 0; transform: translateY(20px); transition: 1s ease;
+            opacity: 0; transform: translateY(20px); transition: 1.5s ease;
         }
         .timer.visible { opacity: 1; transform: translateY(0); }
         .unit span { font-size: 2.2rem; font-weight: 500; color: var(--accent); }
         .unit label { font-size: 0.8rem; opacity: 0.5; letter-spacing: 2px; }
 
-        /* الصندوق والفيونكة الكلاسيك */
         .gift-wrapper {
             position: relative; width: 180px; height: 180px; margin: 0 auto; cursor: pointer;
-            opacity: 0; transform: scale(0.8); transition: 1s cubic-bezier(0.34, 1.56, 0.64, 1);
+            opacity: 0; transform: scale(0.8); transition: 1.5s cubic-bezier(0.22, 1, 0.36, 1);
         }
         .gift-wrapper.visible { opacity: 1; transform: scale(1); }
 
-        /* حالة القفل (اختياري لو عايز تغير شكله وهو مقفول) */
-        .gift-wrapper.is-locked {
-            filter: grayscale(0.3);
-            cursor: not-allowed;
-        }
-
         .classic-bow {
             position: absolute; top: -35px; left: 50%; transform: translateX(-50%);
-            width: 100px; height: 60px; z-index: 5; transition: 0.8s;
+            width: 100px; height: 60px; z-index: 5; transition: 1.2s cubic-bezier(0.5, 0, 0.2, 1);
         }
         .bow-loop {
             position: absolute; width: 50px; height: 50px;
@@ -75,7 +67,7 @@
             position: absolute; width: 200px; height: 45px; 
             background: linear-gradient(135deg, #ffe3e5 0%, #ffd1d5 100%);
             top: -5px; left: -10px; border-radius: 10px; z-index: 4; border: 2px solid #fff;
-            transition: 0.8s cubic-bezier(0.6, -0.28, 0.735, 0.045);
+            transition: 1.2s cubic-bezier(0.5, 0, 0.2, 1);
         }
         .gift-lid::after {
             content: ''; position: absolute; width: 100%; height: 15px;
@@ -92,26 +84,28 @@
             background: var(--ribbon-color); left: 50%; transform: translateX(-50%);
         }
 
-        .gift-wrapper.open .gift-lid, .gift-wrapper.open .classic-bow { transform: translateY(-180px) rotate(-15deg); opacity: 0; }
+        .gift-wrapper.open .gift-lid, .gift-wrapper.open .classic-bow { 
+            transform: translateY(-220px) rotate(-20deg) scale(0.8); 
+            opacity: 0; 
+        }
 
-        /* الودجت */
         .widget-overlay {
             position: fixed; top: 0; left: 0; width: 100%; height: 100%;
-            background: rgba(255, 255, 255, 0.4); backdrop-filter: blur(20px);
+            background: rgba(255, 255, 255, 0.5); backdrop-filter: blur(20px);
             display: none; align-items: center; justify-content: center; z-index: 100;
         }
         .widget-content {
-            background: var(--glass); width: 95%; max-width: 1000px; padding: 40px;
-            border-radius: 40px; box-shadow: 0 40px 80px rgba(0,0,0,0.1);
-            transform: scale(0.8); opacity: 0; transition: 0.6s cubic-bezier(0.34, 1.56, 0.64, 1);
+            background: var(--glass); width: 95%; max-width: 1000px; padding: 30px;
+            border-radius: 40px; box-shadow: 0 40px 80px rgba(0,0,0,0.08);
+            transform: translateY(30px); opacity: 0; transition: 1s cubic-bezier(0.22, 1, 0.36, 1);
             max-height: 90vh; overflow-y: auto; text-align: center;
         }
         .widget-overlay.active { display: flex; }
-        .widget-overlay.active .widget-content { transform: scale(1); opacity: 1; }
+        .widget-overlay.active .widget-content { transform: translateY(0); opacity: 1; }
 
-        /* الكارت الأحمر */
+        /* الكارت الأحمر - تم إصلاح الأبعاد */
         .flip-card {
-            width: 100%; max-width: 400px; height: 220px; margin: 0 auto 50px;
+            width: 100%; max-width: 400px; height: 260px; margin: 0 auto 40px;
             perspective: 1000px; cursor: pointer;
         }
         .flip-card-inner {
@@ -122,19 +116,26 @@
         .flip-card.flipped .flip-card-inner { transform: rotateY(180deg); }
         .card-front, .card-back {
             position: absolute; width: 100%; height: 100%;
-            backface-visibility: hidden; border-radius: 30px;
-            display: flex; align-items: center; justify-content: center; padding: 30px;
+            backface-visibility: hidden; border-radius: 25px;
+            display: flex; align-items: center; justify-content: center; padding: 25px;
         }
-        .card-front { background: var(--ribbon-color); color: white; font-weight: 500; font-size: 1.3rem; }
-        .card-back { background: white; border: 2px solid var(--ribbon-color); color: var(--text); transform: rotateY(180deg); line-height: 1.7; font-size: 1.1rem; }
+        .card-front { 
+            background: var(--ribbon-color); color: white; font-weight: 500; font-size: 1.3rem;
+            box-shadow: 0 10px 25px rgba(255, 94, 108, 0.3);
+        }
+        .card-back { 
+            background: white; border: 2px solid var(--ribbon-color); 
+            color: var(--text); transform: rotateY(180deg); 
+            line-height: 1.7; font-size: 0.95rem; text-align: center; direction: rtl;
+            overflow-y: auto;
+        }
 
-        /* جاليري الصور */
         .photo-grid {
-            display: grid; grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
-            gap: 20px; margin-top: 30px; padding-bottom: 20px;
+            display: grid; grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
+            gap: 15px; margin-top: 30px; padding-bottom: 20px;
         }
         .photo-grid img {
-            width: 100%; height: 180px; object-fit: cover;
+            width: 100%; height: 160px; object-fit: cover;
             border-radius: 20px; transition: 0.4s; cursor: pointer;
         }
         .photo-grid img:hover { transform: translateY(-5px); box-shadow: 0 10px 20px rgba(0,0,0,0.1); }
@@ -144,12 +145,10 @@
             background: rgba(0,0,0,0.92); z-index: 200; display: none;
             align-items: center; justify-content: center; cursor: zoom-out;
         }
-        #lightbox img { max-width: 90%; max-height: 85%; border-radius: 15px; animation: zoomIn 0.3s; }
-        @keyframes zoomIn { from { transform: scale(0.8); opacity: 0; } to { transform: scale(1); opacity: 1; } }
+        #lightbox img { max-width: 90%; max-height: 85%; border-radius: 15px; }
 
-        .close-btn { margin-top: 40px; cursor: pointer; color: var(--accent); font-weight: 500; }
+        .close-btn { margin-top: 40px; cursor: pointer; color: var(--accent); font-weight: 500; padding-bottom: 20px; }
 
-        /* القلوب والأنيميشن */
         .click-heart { position: fixed; pointer-events: none; z-index: 9999; color: var(--accent); font-size: 20px; animation: clickBurst 0.8s ease-out forwards; }
         @keyframes clickBurst { 0% { transform: translate(-50%, -50%) scale(0.5); opacity: 1; } 100% { transform: translate(var(--dx), var(--dy)) scale(1.5); opacity: 0; } }
         .falling-heart { position: fixed; color: var(--accent); z-index: 1; animation: fall linear forwards; }
@@ -181,13 +180,17 @@
             <div class="flip-card" id="main-card" onclick="this.classList.toggle('flipped')">
                 <div class="flip-card-inner">
                     <div class="card-front">You have a message 💌</div>
-                    <div class="card-back">كل سنه وانتي معايا يا روح قلبي
-مش محتاج أقول كلام كبير عشان أوصف إنتي إيه بالنسبالي إنتي بس ببساطة أحلى حاجة في حياتي
-وصاحبتي قبل ما تكوني حبيبتي كل يوم معاكي بالنسبالي نعمه ضحكتك لوحدها كفيله تخليني انسي الدنيا وما فيها 
-حنيتك واحتوائك ليا بجد ربنا يخليكي ليا وربنا يقدرني اخليكي دايما فرحانه 
-عيد ميلاد مختلف بقا كل سنه بيبقا جوايا كلام كتير نفسي اقولو مبعرفش بس كفايا الي انا عايشو معاكي مش مهم اي كلام
-
-بحبك ❤️🎂!</div>
+                    <div class="card-back">
+                        كل سنه وانتي معايا يا روح قلبي <br>
+                        مش محتاج أقول كلام كبير عشان أوصف إنتي إيه بالنسبالي <br>
+                        إنتي بس ببساطة أحلى حاجة في حياتي <br>
+                        وصاحبتي قبل ما تكوني حبيبتي <br>
+                        كل يوم معاكي بالنسبالي نعمه ضحكتك لوحدها <br>
+                        كفيله تخليني انسي الدنيا وما فيها <br>
+                        حنيتك واحتوائك ليا بجد ربنا يخليكي ليا <br>
+                        وربنا يقدرني اخليكي دايما فرحانه <br>
+                        بحبك ❤️🎂!
+                    </div>
                 </div>
             </div>
 
@@ -214,8 +217,8 @@
 
     <script>
         const targetDate = new Date("April 1, 2026 00:00:00").getTime();
-        
-        // الترتيب: الكلام الأول -> العداد -> الصندوق
+        let typewriterDone = false;
+
         const text = "happy birthday my pookie..❤";
         let i = 0;
         function typeWriter() {
@@ -223,13 +226,13 @@
                 document.getElementById("typewriter").innerHTML += text.charAt(i);
                 i++; setTimeout(typeWriter, 100);
             } else {
+                typewriterDone = true;
                 document.getElementById('timer-ui').classList.add('visible');
                 setTimeout(() => { document.getElementById('gift-ui').classList.add('visible'); }, 1000);
             }
         }
         window.onload = typeWriter;
 
-        // تحديث العداد والمراقبة الحية
         const timerInterval = setInterval(() => {
             const now = new Date().getTime();
             const diff = targetDate - now;
@@ -240,25 +243,21 @@
                 document.getElementById('mins').innerText = Math.floor((diff%3600000)/60000).toString().padStart(2,'0');
                 document.getElementById('secs').innerText = Math.floor((diff%60000)/1000).toString().padStart(2,'0');
             } else {
-                // أول ما الوقت يخلص والعداد يصفر
                 document.getElementById('days').innerText = "00";
                 document.getElementById('hours').innerText = "00";
                 document.getElementById('mins').innerText = "00";
                 document.getElementById('secs').innerText = "00";
                 
-                // لو الصندوق لسه مقفول، افتحه فوراً تلقائياً
-                const gift = document.getElementById('gift-ui');
-                if (!gift.classList.contains('open')) {
-                    revealMagic();
+                if (typewriterDone) {
+                    setTimeout(() => { revealMagic(); }, 2000);
+                    clearInterval(timerInterval);
                 }
-                clearInterval(timerInterval); // نوقف العداد
             }
         }, 1000);
 
         function handleGiftClick(e) {
             e.stopPropagation();
-            const now = new Date().getTime();
-            if (now < targetDate) {
+            if (new Date().getTime() < targetDate) {
                 alert("الانتظار يا ست الحبايب 😂");
             } else {
                 revealMagic();
@@ -266,15 +265,19 @@
         }
 
         function revealMagic() {
-            document.getElementById('gift-ui').classList.add('open');
-            setTimeout(() => { document.getElementById('overlay').classList.add('active'); }, 700);
+            const gift = document.getElementById('gift-ui');
+            if (!gift.classList.contains('open')) {
+                gift.classList.add('open');
+                setTimeout(() => { 
+                    document.getElementById('overlay').classList.add('active'); 
+                }, 1300);
+            }
         }
 
         function openLightbox(src) {
             event.stopPropagation();
-            const lb = document.getElementById('lightbox');
             document.getElementById('lightbox-img').src = src;
-            lb.style.display = 'flex';
+            document.getElementById('lightbox').style.display = 'flex';
         }
 
         function closeMagic() {
