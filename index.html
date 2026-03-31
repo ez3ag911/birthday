@@ -50,6 +50,12 @@
         }
         .gift-wrapper.visible { opacity: 1; transform: scale(1); }
 
+        /* حالة القفل (اختياري لو عايز تغير شكله وهو مقفول) */
+        .gift-wrapper.is-locked {
+            filter: grayscale(0.3);
+            cursor: not-allowed;
+        }
+
         .classic-bow {
             position: absolute; top: -35px; left: 50%; transform: translateX(-50%);
             width: 100px; height: 60px; z-index: 5; transition: 0.8s;
@@ -162,7 +168,7 @@
             <div class="unit"><span id="mins">00</span><label>Mins</label></div>
             <div class="unit"><span id="secs">00</span><label>Secs</label></div>
         </div>
-        <div class="gift-wrapper" id="gift-ui" onclick="revealMagic(event)">
+        <div class="gift-wrapper" id="gift-ui" onclick="handleGiftClick(event)">
             <div class="classic-bow"><div class="bow-loop left"></div><div class="bow-loop right"></div><div class="bow-center"></div></div>
             <div class="gift-lid"></div><div class="gift-box"></div>
         </div>
@@ -189,7 +195,7 @@
                 <img src="photo7.jpg" onclick="openLightbox(this.src)">
                 <img src="photo8.jpg" onclick="openLightbox(this.src)">
                 <img src="photo9.jpg" onclick="openLightbox(this.src)">
-                <img src="photo10.png" onclick="openLightbox(this.src)">
+                <img src="photo10.jpg" onclick="openLightbox(this.src)">
             </div>
             
             <div class="close-btn" onclick="closeMagic()">Close</div>
@@ -201,8 +207,10 @@
     </div>
 
     <script>
+        const targetDate = new Date("April 1, 2026 00:00:00").getTime();
+        
         // الترتيب: الكلام الأول -> العداد -> الصندوق
-        const text = "A little something for someone special...";
+        const text = "happy birthday my pookie..❤";
         let i = 0;
         function typeWriter() {
             if (i < text.length) {
@@ -215,29 +223,52 @@
         }
         window.onload = typeWriter;
 
-        const target = new Date("April 1, 2026 00:00:00").getTime();
-        setInterval(() => {
+        // تحديث العداد والمراقبة الحية
+        const timerInterval = setInterval(() => {
             const now = new Date().getTime();
-            const diff = target - now;
+            const diff = targetDate - now;
+
             if (diff > 0) {
                 document.getElementById('days').innerText = Math.floor(diff/86400000).toString().padStart(2,'0');
                 document.getElementById('hours').innerText = Math.floor((diff%86400000)/3600000).toString().padStart(2,'0');
                 document.getElementById('mins').innerText = Math.floor((diff%3600000)/60000).toString().padStart(2,'0');
                 document.getElementById('secs').innerText = Math.floor((diff%60000)/1000).toString().padStart(2,'0');
+            } else {
+                // أول ما الوقت يخلص والعداد يصفر
+                document.getElementById('days').innerText = "00";
+                document.getElementById('hours').innerText = "00";
+                document.getElementById('mins').innerText = "00";
+                document.getElementById('secs').innerText = "00";
+                
+                // لو الصندوق لسه مقفول، افتحه فوراً تلقائياً
+                const gift = document.getElementById('gift-ui');
+                if (!gift.classList.contains('open')) {
+                    revealMagic();
+                }
+                clearInterval(timerInterval); // نوقف العداد
             }
         }, 1000);
+
+        function handleGiftClick(e) {
+            e.stopPropagation();
+            const now = new Date().getTime();
+            if (now < targetDate) {
+                alert("الانتظار يا ست الحبايب 😂");
+            } else {
+                revealMagic();
+            }
+        }
+
+        function revealMagic() {
+            document.getElementById('gift-ui').classList.add('open');
+            setTimeout(() => { document.getElementById('overlay').classList.add('active'); }, 700);
+        }
 
         function openLightbox(src) {
             event.stopPropagation();
             const lb = document.getElementById('lightbox');
             document.getElementById('lightbox-img').src = src;
             lb.style.display = 'flex';
-        }
-
-        function revealMagic(e) {
-            e.stopPropagation();
-            document.getElementById('gift-ui').classList.add('open');
-            setTimeout(() => { document.getElementById('overlay').classList.add('active'); }, 700);
         }
 
         function closeMagic() {
@@ -257,25 +288,19 @@
             }
         }
 
-       // مطر القلوب التلقائي - تم زيادة الكثافة هنا
         setInterval(() => {
             const h = document.createElement('div');
             h.className = 'falling-heart'; 
-            // مصفوفة لاختيار شكل القلب بشكل عشوائي للتنويع
             const heartTypes = ['❤️', '💖', '✨', '🌸', '💕'];
             h.innerHTML = heartTypes[Math.floor(Math.random() * heartTypes.length)];
-            
             h.style.left = Math.random() * 100 + 'vw';
-            h.style.top = '-20px'; // يبدأ من فوق الشاشة تماماً
-            h.style.fontSize = (Math.random() * 20 + 10) + 'px'; // أحجام متنوعة
-            h.style.opacity = Math.random(); // شفافية متغيرة لشكل ألطف
-            h.style.animationDuration = (Math.random() * 3 + 3) + 's'; // سرعات متفاوتة
-            
+            h.style.top = '-20px';
+            h.style.fontSize = (Math.random() * 20 + 10) + 'px';
+            h.style.opacity = Math.random();
+            h.style.animationDuration = (Math.random() * 3 + 3) + 's';
             document.getElementById('heart-rain').appendChild(h);
-            
-            // مسح العنصر بعد انتهاء الأنيميشن لتجنب ثقل الصفحة
             setTimeout(() => h.remove(), 6000);
-        }, 150); // القيمة دي كانت 400، خليتها 150 عشان القلوب تنزل أسرع وبكمية أكبر
+        }, 150);
     </script>
 </body>
 </html>
