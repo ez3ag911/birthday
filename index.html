@@ -21,7 +21,6 @@
             text-align: center;
         }
 
-        /* Floating Hearts Background */
         .heart-bg {
             position: fixed;
             top: 0; left: 0; width: 100%; height: 100%;
@@ -29,7 +28,6 @@
             z-index: -1;
         }
 
-        /* Hero Section & Countdown */
         .hero {
             padding: 80px 20px;
             background: linear-gradient(135deg, #ff416c, #ff4b2b);
@@ -60,7 +58,6 @@
         .count-box span { font-size: 1.8rem; display: block; }
         .count-box label { font-size: 0.8rem; text-transform: uppercase; color: #888; }
 
-        /* Gallery Section */
         .section-title { margin: 60px 0 30px; font-size: 2.2rem; color: var(--primary-color); position: relative; }
         .section-title::after {
             content: ''; width: 50px; height: 3px; background: var(--primary-color);
@@ -86,12 +83,8 @@
         }
 
         .gallery-item:hover { transform: translateY(-10px); }
+        .gallery-item img { width: 100%; height: 100%; object-fit: cover; }
 
-        .gallery-item img {
-            width: 100%; height: 100%; object-fit: cover;
-        }
-
-        /* Memory Cards */
         .cards-container {
             display: flex;
             flex-wrap: wrap;
@@ -100,12 +93,7 @@
             padding: 40px 20px;
         }
 
-        .card {
-            width: 320px;
-            height: 220px;
-            perspective: 1000px;
-        }
-
+        .card { width: 320px; height: 220px; perspective: 1000px; }
         .card-inner {
             position: relative;
             width: 100%; height: 100%;
@@ -113,9 +101,7 @@
             transform-style: preserve-3d;
             cursor: pointer;
         }
-
         .card:hover .card-inner { transform: rotateY(180deg); }
-
         .card-front, .card-back {
             position: absolute;
             width: 100%; height: 100%;
@@ -128,12 +114,10 @@
             padding: 25px;
             box-sizing: border-box;
         }
-
         .card-front { background: white; border: 2px dashed var(--secondary-color); color: var(--primary-color); }
         .card-back { background: var(--primary-color); color: white; transform: rotateY(180deg); }
 
         footer { padding: 40px; color: #888; font-style: italic; }
-
     </style>
 </head>
 <body>
@@ -141,8 +125,79 @@
     <div class="heart-bg" id="hearts"></div>
 
     <header class="hero">
-        <h1>Waiting for the Special Moment... ❤️</h1>
+        <h1 id="headline">Waiting for the Special Moment... ❤️</h1>
         <div class="countdown" id="timer">
             <div class="count-box"><span id="days">00</span><label>Days</label></div>
             <div class="count-box"><span id="hours">00</span><label>Hours</label></div>
-            <div class="count-box"><span id
+            <div class="count-box"><span id="mins">00</span><label>Mins</label></div>
+            <div class="count-box"><span id="secs">00</span><label>Secs</label></div>
+        </div>
+    </header>
+
+    <h2 class="section-title">Our Beautiful Memories</h2>
+    <div class="gallery">
+        <div class="gallery-item"><img src="photo1.jpg" alt="Memory 1"></div>
+        <div class="gallery-item"><img src="photo2.jpg" alt="Memory 2"></div>
+        <div class="gallery-item"><img src="photo3.jpg" alt="Memory 3"></div>
+    </div>
+
+    <div class="cards-container">
+        <div class="card">
+            <div class="card-inner">
+                <div class="card-front"><h3>The First Day 🗓️</h3><p>Tap to flip</p></div>
+                <div class="card-back"><p>I still remember the first second I saw you. It was the moment my life truly started.</p></div>
+            </div>
+        </div>
+        <div class="card">
+            <div class="card-inner">
+                <div class="card-front"><h3>My Promise 💍</h3><p>Tap to flip</p></div>
+                <div class="card-back"><p>To always be by your side, to support you, and to love you more with every passing day.</p></div>
+            </div>
+        </div>
+    </div>
+
+    <footer>Created with love for a very special person ✨</footer>
+
+    <script>
+        // السطر ده هو اللي اتعدل عشان يظبط الوقت لـ 1 أبريل 2026
+        const targetDate = new Date("April 1, 2026 00:00:00").getTime();
+
+        function updateCountdown() {
+            const now = new Date().getTime();
+            const diff = targetDate - now;
+
+            if (diff > 0) {
+                document.getElementById("days").innerText = Math.floor(diff / (1000 * 60 * 60 * 24)).toString().padStart(2, '0');
+                document.getElementById("hours").innerText = Math.floor((diff % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60)).toString().padStart(2, '0');
+                document.getElementById("mins").innerText = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60)).toString().padStart(2, '0');
+                document.getElementById("secs").innerText = Math.floor((diff % (1000 * 60)) / 1000).toString().padStart(2, '0');
+            } else {
+                document.getElementById("headline").innerText = "HAPPY BIRTHDAY LOVE! 🎉";
+                document.getElementById("timer").style.display = "none";
+            }
+        }
+        setInterval(updateCountdown, 1000);
+        updateCountdown();
+
+        function createHeart() {
+            const heart = document.createElement("div");
+            heart.innerHTML = "❤️";
+            heart.style.position = "fixed";
+            heart.style.left = Math.random() * 100 + "vw";
+            heart.style.top = "110vh";
+            heart.style.fontSize = Math.random() * 20 + 10 + "px";
+            heart.style.opacity = Math.random();
+            heart.style.zIndex = "-1";
+            heart.style.transition = "top 6s linear, opacity 6s";
+            document.getElementById("hearts").appendChild(heart);
+
+            setTimeout(() => {
+                heart.style.top = "-10vh";
+                heart.style.opacity = "0";
+            }, 100);
+            setTimeout(() => heart.remove(), 7000);
+        }
+        setInterval(createHeart, 400);
+    </script>
+</body>
+</html>
